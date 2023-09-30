@@ -47,7 +47,7 @@ function Gameboard() {
    // but we won't need it after we build our UI
    const printBoard = () => {
       const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue()))
-      console.log(boardWithCellValues);
+      console.table(boardWithCellValues);
    };
 
    // Here, we provide an interface for the rest of our
