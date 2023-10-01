@@ -94,19 +94,16 @@ function GameController(
 
       // check row
       for (let i = 0; i < columns; i++) {
-         console.log(i);
          let cellVal = theBoard[row][i].getValue();
          if (cellVal === activePlayerToken) {
             currentStreakCount++;
          } else {
-            if (currentStreakCount > highestStreakCount) {
-               highestStreakCount = currentStreakCount;
-               console.log({highestStreakCount, currentStreakCount});
-            }
             currentStreakCount = 0;
          }
+         if (currentStreakCount > highestStreakCount) {
+            highestStreakCount = currentStreakCount;
+         }
       }
-
    }
 
    const playRound = (column) => {
