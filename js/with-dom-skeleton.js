@@ -82,12 +82,27 @@ function GameController(
    };
 
    const checkIfWinner = (column) => {
-      row = board.getLastPlayAddress()[0];
-      const recentlyPlayedCell = board.getBoard()[row][column];
+      const theBoard = board.getBoard();
+      const row = board.getLastPlayAddress()[0];
+      const recentlyPlayedCell = theBoard[row][column];
+      const activePlayerToken = recentlyPlayedCell.getValue();
+      const rows = theBoard.length; // get board row size
+      const columns = theBoard[0].length; // get board column size
+      let lastToken = null;
+      let tokenStreakCount = 0;
 
-      console.log({row, column}, recentlyPlayedCell.getValue());
-
-      
+      // check row
+      for (let i = 0; i < columns; i++) {
+         const cellVal = theBoard[row][i].getValue();
+         if (cellVal === activePlayerToken && cellVal === lastToken) {
+            tokenStreakCount++;
+            lastToken = cellVal;
+            console.log(tokenStreakCount);
+         } else {
+            tokenStreakCount = 0;
+            console.log(tokenStreakCount);
+         }
+      }
    }
 
    const playRound = (column) => {
