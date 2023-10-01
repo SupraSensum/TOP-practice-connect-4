@@ -78,7 +78,7 @@ function GameController(
       if (!availableCells.length) return;
       const recentlyPlayedRow = availableCells.length;
       const recentlyPlayedCell = board.getBoard()[recentlyPlayedRow][column];
-      console.log(recentlyPlayedCell);
+      console.log({recentlyPlayedRow, column}, recentlyPlayedCell.getValue());
    }
 
    const playRound = (column) => {
