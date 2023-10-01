@@ -2,7 +2,7 @@ function Gameboard() {
    const rows = 6;
    const columns = 7;
    const board = [];
-   let lastPlayAddress = null;
+   let lastPlayAddress = {};
 
    for (let i = 0; i < rows; i++) {
       board[i] = [];
@@ -26,7 +26,8 @@ function Gameboard() {
    };
 
    const updateLastPlayAddress = (row, col) => {
-      lastPlayAddress = [row, col];
+      lastPlayAddress.row = row;
+      lastPlayAddress.col = col;
    }
 
    const printBoard = () => {
@@ -83,26 +84,29 @@ function GameController(
 
    const checkIfWinner = (column) => {
       const theBoard = board.getBoard();
-      const row = board.getLastPlayAddress()[0];
+      const row = board.getLastPlayAddress().row;
       const recentlyPlayedCell = theBoard[row][column];
       const activePlayerToken = recentlyPlayedCell.getValue();
       const rows = theBoard.length; // get board row size
       const columns = theBoard[0].length; // get board column size
-      let lastToken = null;
-      let tokenStreakCount = 0;
+      let highestStreakCount = 0;
+      let currentStreakCount = 0;
 
       // check row
       for (let i = 0; i < columns; i++) {
-         const cellVal = theBoard[row][i].getValue();
-         if (cellVal === activePlayerToken && cellVal === lastToken) {
-            tokenStreakCount++;
-            lastToken = cellVal;
-            console.log(tokenStreakCount);
+         console.log(i);
+         let cellVal = theBoard[row][i].getValue();
+         if (cellVal === activePlayerToken) {
+            currentStreakCount++;
          } else {
-            tokenStreakCount = 0;
-            console.log(tokenStreakCount);
+            if (currentStreakCount > highestStreakCount) {
+               highestStreakCount = currentStreakCount;
+               console.log({highestStreakCount, currentStreakCount});
+            }
+            currentStreakCount = 0;
          }
       }
+
    }
 
    const playRound = (column) => {
