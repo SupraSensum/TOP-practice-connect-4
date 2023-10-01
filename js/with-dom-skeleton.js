@@ -2,6 +2,7 @@ function Gameboard() {
    const rows = 6;
    const columns = 7;
    const board = [];
+   let lastPlayAddress = null;
 
    for (let i = 0; i < rows; i++) {
       board[i] = [];
@@ -11,6 +12,7 @@ function Gameboard() {
    }
 
    const getBoard = () => board;
+   const getLastPlayAddress = () => lastPlayAddress;
 
    const dropToken = (column, player) => {
       const availableCells = board.filter((row) => row[column].getValue() === 0).map(row => row[column]);
@@ -19,14 +21,20 @@ function Gameboard() {
 
       const lowestRow = availableCells.length - 1;
       board[lowestRow][column].addToken(player);
+
+      updateLastPlayAddress(lowestRow, column);
    };
+
+   const updateLastPlayAddress = (row, col) => {
+      lastPlayAddress = [row, col];
+   }
 
    const printBoard = () => {
       const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue()))
       console.table(boardWithCellValues);
    };
 
-   return { getBoard, dropToken, printBoard };
+   return { getBoard, dropToken, printBoard, getLastPlayAddress };
 }
 
 function Cell() {
@@ -74,11 +82,12 @@ function GameController(
    };
 
    const checkIfWinner = (column) => {
-      const availableCells = board.getBoard().filter((row) => row[column].getValue() === 0).map(row => row[column]);
-      if (!availableCells.length) return;
-      const recentlyPlayedRow = availableCells.length;
-      const recentlyPlayedCell = board.getBoard()[recentlyPlayedRow][column];
-      console.log({recentlyPlayedRow, column}, recentlyPlayedCell.getValue());
+      row = board.getLastPlayAddress()[0];
+      const recentlyPlayedCell = board.getBoard()[row][column];
+
+      console.log({row, column}, recentlyPlayedCell.getValue());
+
+      
    }
 
    const playRound = (column) => {
