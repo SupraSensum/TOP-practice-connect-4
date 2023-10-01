@@ -23,7 +23,7 @@ function Gameboard() {
 
    const printBoard = () => {
       const boardWithCellValues = board.map((row) => row.map((cell) => cell.getValue()))
-      console.log(boardWithCellValues);
+      console.table(boardWithCellValues);
    };
 
    return { getBoard, dropToken, printBoard };
@@ -73,14 +73,21 @@ function GameController(
       console.log(`${getActivePlayer().name}'s turn.`);
    };
 
+   const checkIfWinner = (column) => {
+      const availableCells = board.getBoard().filter((row) => row[column].getValue() === 0).map(row => row[column]);
+      if (!availableCells.length) return;
+      const recentlyPlayedRow = availableCells.length;
+      const recentlyPlayedCell = board.getBoard()[recentlyPlayedRow][column];
+      console.log(recentlyPlayedCell);
+   }
+
    const playRound = (column) => {
       console.log(
          `Dropping ${getActivePlayer().name}'s token into column ${column}...`
       );
       board.dropToken(column, getActivePlayer().token);
 
-      /*  This is where we would check for a winner and handle that logic,
-          such as a win message. */
+      checkIfWinner(column);
 
       switchPlayerTurn();
       printNewRound();
