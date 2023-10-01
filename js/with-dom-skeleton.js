@@ -94,14 +94,11 @@ function GameController(
 
       // check row
       for (let i = 0; i < columns; i++) {
-         let cellVal = theBoard[row][i].getValue();
-         if (cellVal === activePlayerToken) {
+         if (theBoard[row][i].getValue() === activePlayerToken) {
             currentStreakCount++;
+            highestStreakCount = Math.max(highestStreakCount, currentStreakCount);
          } else {
             currentStreakCount = 0;
-         }
-         if (currentStreakCount > highestStreakCount) {
-            highestStreakCount = currentStreakCount;
          }
       }
    }
